@@ -1,5 +1,3 @@
-def main():
-    pass
 import asyncio
 import logging
 from celery_worker import celery_app

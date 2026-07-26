@@ -44,7 +44,7 @@ class Settings(BaseSettings):
         description='Максимум новостей за один запуск парсера'
     )
 
-    #parse
+    #generate
     generate_interval_minutes: int = Field(
         default=30,
         description='Как часто запускать генерацию'

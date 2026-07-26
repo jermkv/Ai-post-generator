@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from celery_worker import celery_app
+from app.config import settings
 from app.database import AsyncSessionLocal
 from app.repository.news_repo import NewsRepository
 from app.services.filter import FilterService
@@ -15,7 +16,7 @@ def run_pipeline():
             news_repo = NewsRepository(session)
 
             # 1. Берем новости за последние 24 часа, которые еще не обрабатывались
-            unprocessed_news = await news_repo.get_unprocessed(limit=50, max_age_hours=24)
+            unprocessed_news = await news_repo.get_unprocessed(limit=settings.max_generate_per_source, max_age_hours=24)
 
             if not unprocessed_news:
                 logger.info("[PIPELINE] Нет новых новостей для обработки.")

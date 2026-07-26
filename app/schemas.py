@@ -60,6 +60,20 @@ class KeywordResponse(BaseModel):
     model_config = {'from_attributes': True}
 
 
+class NewsItemResponse(BaseModel):
+    id: str
+    title: str
+    url: Optional[str]
+    summary: str
+    raw_text: Optional[str]
+    source_id: int
+    source_name: str
+    published_at: datetime
+    collected_at: datetime
+    is_processed: bool
+    model_config = {'from_attributes': True}
+
+
 class PostResponse(BaseModel):
     id: int
     news_id: str

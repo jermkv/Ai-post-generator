@@ -73,3 +73,27 @@ class NewsRepository:
         if news:
             news.is_processed = True
             await self.session.commit()
+
+    async def get_all_newsitems(
+            self,
+            is_processed: Optional[bool] = None,
+            source_id: Optional[int] = None,
+            limit: int = 20,
+            offset: int = 0
+    ) -> list[NewsItem]:
+        """Возвращает список собранных новостей с фильтрацией и пагинацией."""
+        stmt = select(NewsItem).order_by(NewsItem.published_at.desc()).limit(limit).offset(offset)
+        conditions = []
+        if is_processed is not None:
+            conditions.append(NewsItem.is_processed == is_processed)
+        if source_id is not None:
+            conditions.append(NewsItem.source_id == source_id)
+        if conditions:
+            stmt = stmt.where(and_(*conditions))
+        result = await self.session.execute(stmt)
+        return list(result.scalars().all())
+
+    async def get_newsitem_by_id(self, news_id: str) -> Optional[NewsItem]:
+        """Возвращает новость по ее идентификатору."""
+        return await self.session.get(NewsItem, news_id)
+

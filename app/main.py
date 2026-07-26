@@ -8,6 +8,7 @@ from app.api.keywords import router as keywords_router
 from app.api.posts import router as posts_router
 from app.api.sources import router as sources_router
 from app.api.generate import router as generate_router
+from app.api.news import router as news_router
 from app.config import settings
 from app.database import engine
 
@@ -46,6 +47,7 @@ app.add_middleware(
 
 app.include_router(sources_router)
 app.include_router(keywords_router)
+app.include_router(news_router)
 app.include_router(posts_router)
 app.include_router(generate_router)
 

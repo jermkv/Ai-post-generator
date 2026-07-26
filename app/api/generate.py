@@ -1,12 +1,19 @@
 from fastapi import APIRouter, HTTPException
 from app.ai.client import GenerationConfigurationError, GenerationError, generate_post_text
-from app.schemas import  GenerationRequest, GenerationResponse
+from app.schemas import GenerationRequest, GenerationResponse
 
 
 router = APIRouter(prefix='/api/v1/generate', tags=['AI generation'])
 
-@router.post('/', response_model=GenerationResponse)
+@router.post('/', response_model=GenerationResponse,
+             summary='Сгенерировать пост через AI (Предпросмотр)',
+             response_description='Сгенерированный текст поста')
 async def generate_preview(data: GenerationRequest) -> GenerationResponse:
+    """
+    Генерирует готовый текст поста для Telegram-канала на основе заголовка и краткого содержания новости через OpenAI API.
+
+    Используется для ручного тестирования и предпросмотра результата генерации без сохранения в базу данных.
+    """
     try:
         text = await generate_post_text(
             news_summary=data.body,
@@ -23,3 +30,4 @@ async def generate_preview(data: GenerationRequest) -> GenerationResponse:
         generated_text=text,
         char_count=len(text)
     )
+

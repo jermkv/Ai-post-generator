@@ -97,6 +97,10 @@ class MessageResponse(BaseModel):
 class GenerationRequest(BaseModel):
     title: str = Field(..., max_length=500)
     body: str = Field(..., min_length=20, max_length=20_000)
+    provider: Literal['openai', 'gemini'] = Field(
+        default='gemini',
+        description="Провайдер LLM для генерации"
+    )
 
 
 class GenerationResponse(BaseModel):

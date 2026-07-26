@@ -26,6 +26,14 @@ class Settings(BaseSettings):
         description='Максим испол токенов'
     )
 
+    #gemini
+    gemini_api_key: str = Field(...,description="API key Gemini")
+    gemini_model: str = Field(default='gemini-3.5-flash', description='gemini-3.5-flash')
+    gemini_max_tokens: int = Field(
+        default=500,
+        description='Максим испол токенов'
+    )
+
     #parse
     parse_interval_minutes: int = Field(
         default=30,

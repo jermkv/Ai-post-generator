@@ -49,7 +49,7 @@ async def generate_post_text(
     if not body:
         raise ValueError('Нельзя сгенерировать пост из пустого текста')
 
-    user_input = f'Загаловок: {title}\n\nТекст новости {body}'
+    user_input = f'Загаловок: {title}\n\nТекст новости: {body}'
 
     try:
         response = await client.responses.create(
@@ -60,18 +60,19 @@ async def generate_post_text(
             store=False
         )
     except AuthenticationError as ext:
-        raise GenerationConfigurationError(
-            'OpenAI отклонил API-key'
-        )
+        logger.error(f"OpenAI Auth error: {ext}")
+        raise GenerationConfigurationError('OpenAI отклонил API-key')
     except (RateLimitError, APIConnectionError, APITimeoutError) as ext:
-        raise  GenerationError(
-            f'Временная ошикба OpenAI'
-        )
+        logger.warning(f"OpenAI rate limit/connection error: {ext}")
+        raise GenerationError('Временная ошибка OpenAI')
+    except APIStatusError as ext:
+        logger.error(f"OpenAI API status error: {ext}")
+        raise GenerationError('Ошибка сервиса OpenAI')
 
     text = await response.output_text.strip()
 
     if len(text) > 800:
         raise GenerationError(
-            f'OpenAI первысил лимит длины {len(text)} символов'
+            f'OpenAI превысил лимит длины {len(text)} символов'
         )
     return text

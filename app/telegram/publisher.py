@@ -27,7 +27,7 @@ async def publish_to_channel(text: str) -> int:
     try:
         message = await client.send_message(
             entity=settings.tg_target_channel,
-            message=client,
+            message=clean_text,
             parse_mode=None
         )
     except ChatWriteForbiddenError as ext:

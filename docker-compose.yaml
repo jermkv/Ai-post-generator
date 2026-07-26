@@ -49,6 +49,21 @@ services:
     networks:
       - aibot-net
 
+  migration:
+    build:
+      context: .
+    container_name: aibot-migration
+    command: alembic upgrade head
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - aibot-net
+
   api:
     build:
       context: .
@@ -64,6 +79,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migration:
+        condition: service_completed_successfully
       redis:
         condition: service_healthy
       rabbitmq:

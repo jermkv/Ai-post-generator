@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 TELEGRAM_TEXT_LIMIT = 4096
 
-class PiblishPermissionError(RuntimeError):
+class PublishPermissionError(RuntimeError):
     """Аккаунт не может писать в целевой канал"""
 
 
@@ -31,7 +31,7 @@ async def publish_to_channel(text: str) -> int:
             parse_mode=None
         )
     except ChatWriteForbiddenError as ext:
-        raise PiblishPermissionError(
+        raise PublishPermissionError(
             f'Нет прав писать в {settings.tg_target_channel}'
         )
 

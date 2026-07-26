@@ -18,7 +18,7 @@ class PostRepository:
             status=PostStatus.PENDING
         )
         self.session.add(post)
-        self.session.commit()
+        await self.session.commit()
         await self.session.refresh(post)
         return post
 

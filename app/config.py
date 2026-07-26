@@ -44,6 +44,16 @@ class Settings(BaseSettings):
         description='Максимум новостей за один запуск парсера'
     )
 
+    #parse
+    generate_interval_minutes: int = Field(
+        default=30,
+        description='Как часто запускать генерацию'
+    )
+    max_generate_per_source: int = Field(
+        default=10,
+        description='Максимум постов для генерации за один запуск таски'
+    )
+
     #App
     app_env: str = Field(default='development', description='development / production / testing')
     log_level: str = Field(default='INFO')

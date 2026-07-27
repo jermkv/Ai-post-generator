@@ -10,7 +10,7 @@
 *   **Web API:** FastAPI + Uvicorn.
 *   **База данных:** PostgreSQL + SQLAlchemy (async) + Alembic.
 *   **Очередь задач:** Celery + RabbitMQ (брокер) + Redis (backend).
-*   **ИИ-провайдеры:** Google Gemini (основной, `gemini-2.5-flash`) и OpenAI GPT-4o-mini (запасной).
+*   **ИИ-провайдеры:** Google Gemini (основной) и OpenAI GPT-4o-mini (запасной).
 *   **Интеграция с Telegram:** Telethon (для парсинга каналов и публикации).
 *   **Деплой и инфраструктура:** Docker Compose.
 

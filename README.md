@@ -1,6 +1,6 @@
 # 🤖 AI Post Generator
 
-**AI News Bot** — это автоматизированная система для сбора новостей из различных источников (RSS/Telegram), их фильтрации, генерации Telegram-постов с помощью ИИ и автоматической публикации в канал. 
+**AI Post Generator** — это автоматизированная система для сбора новостей из различных источников (RSS/Telegram), их фильтрации, генерации Telegram-постов с помощью ИИ и автоматической публикации в канал. 
 
 ## 🏗 Архитектура и Стек Технологий
 
@@ -15,8 +15,6 @@
 *   **Деплой и инфраструктура:** Docker Compose.
 
 ---
-
-## 📁 Структура проекта
 
 ## 📁 Структура проекта
 
@@ -52,16 +50,21 @@
 Создайте файл `.env` в корневой директории проекта и заполните его вашими данными:
 
 DATABASE_URL=postgresql+asyncpg://postgres:pass@postgres:5432/aibot
+
 RABBIT_URL=amqp://guest:guest@rabbitmq:5672//
+
 REDIS_URL=redis://redis:6379/0
 
-# Настройки Telegram (получить на my.telegram.org)
+### Настройки Telegram (получить на my.telegram.org)
 TG_API_ID=ваш_api_id
+
 TG_API_HASH=ваш_api_hash
+
 TG_TARGET_CHANNEL=@ваш_канал
 
 # Ключи API
 OPENAI_API_KEY=ваш_openai_ключ
+
 GEMINI_API_KEY=ваш_gemini_ключ
 
 ### Шаг 2. Запуск контейнеров

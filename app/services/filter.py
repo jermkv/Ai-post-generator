@@ -34,9 +34,9 @@ class FilterService:
         # 1. Получаем активные ключевые слова из БД
         keyword_repo = KeywordRepository(self.session)
         news_repo = NewsRepository(self.session)
-
-        active_keywords = await keyword_repo.get_all(enabled_only=True)
-        kw_list = [k.word.lower() for k in active_keywords]
+        
+        active_keywords = await keyword_repo.get_all_enabled()
+        kw_list = [kw.lower() for kw in active_keywords]
 
         for item in items:
             # Собираем весь текст новости в одну строку для поиска

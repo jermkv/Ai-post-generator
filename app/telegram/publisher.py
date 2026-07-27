@@ -26,7 +26,7 @@ async def publish_to_channel(text: str) -> int:
 
     try:
         message = await client.send_message(
-            entity=settings.tg_target_channel,
+            entity= int(settings.tg_target_channel),
             message=clean_text,
             parse_mode=None
         )

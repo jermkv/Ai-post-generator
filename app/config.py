@@ -46,11 +46,11 @@ class Settings(BaseSettings):
 
     #generate
     generate_interval_minutes: int = Field(
-        default=30,
+        default=15,
         description='Как часто запускать генерацию'
     )
     max_generate_per_source: int = Field(
-        default=10,
+        default=1,
         description='Максимум постов для генерации за один запуск таски'
     )
 

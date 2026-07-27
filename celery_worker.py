@@ -31,7 +31,7 @@ celery_app.conf.beat_schedule = {
         'task': 'tasks.parse_all_sources',
         'schedule': settings.parse_interval_minutes * 60
     },
-    # Оркестратор будет проверять новые новости каждые 15 минут
+    # Оркестратор будет проверять новые новости каждые generate_interval_minutes минут
     'run-pipeline-orchestrator': {
         'task': 'tasks.run_pipeline',
         'schedule': settings.generate_interval_minutes * 60

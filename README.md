@@ -85,16 +85,45 @@ Bash
 
 ## 📡 Примеры API-запросов и Тестирование
 
-Ручной запуск задач
+Все API-запросы подробно задокументированы в FastAPI (`/docs`).
+
+Примеры 
+
+Добавление нового RSS-источника:
+
+`curl -X 'POST' \
+  'http://127.0.0.1:8000/api/v1/sources/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "TechCrunch RSS",
+  "source_type": "rss",
+  "url": "https://techcrunch.com/feed/",
+  "enabled": true
+}'`
+
+Добавление ключевого слова для фильтра:
+`
+curl -X 'POST' \
+  'http://127.0.0.1:8000/api/v1/keywords/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "word": "python",
+  "pattern": "string",
+  "enabled": true
+}'
+`
+
+
+### Ручной запуск задач
 Если вы не хотите ждать срабатывания расписания (Celery Beat каждые 30 минут), вы можете запустить процесс вручную из консоли:
 
 Спарсить все активные источники:
 
-Bash
-docker compose exec celery_worker celery -A celery_worker call tasks.parse_all_sources
+`docker compose exec celery_worker celery -A celery_worker call tasks.parse_all_sources`
+
 Запустить конвейер фильтрации, генерации и публикации:
-
-Bash
-docker compose exec celery_worker celery -A celery_worker call tasks.run_pipeline
-
+`docker compose exec celery_worker celery -A celery_worker call tasks.run_pipeline
+`
 💡 Мониторинг: Для визуального отслеживания состояния очередей и задач используйте панель Flower, доступную по адресу http://localhost:5555.

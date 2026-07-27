@@ -124,6 +124,6 @@ curl -X 'POST' \
 `docker compose exec celery_worker celery -A celery_worker call tasks.parse_all_sources`
 
 Запустить конвейер фильтрации, генерации и публикации:
-`docker compose exec celery_worker celery -A celery_worker call tasks.run_pipeline
-`
+`docker compose exec celery_worker celery -A celery_worker call tasks.run_pipeline`
+
 💡 Мониторинг: Для визуального отслеживания состояния очередей и задач используйте панель Flower, доступную по адресу http://localhost:5555.

@@ -18,18 +18,33 @@
 
 ## 📁 Структура проекта
 
-*   `app/main.py` — основной файл FastAPI приложения, объединяющий роутеры (`sources`, `keywords`, `news`, `posts`, `generate`, `auth`).
-*   `app/ai/` — модуль работы с ИИ. Содержит `AIClient` (единая точка доступа) и `PostGenerator` (формирование промптов и валидация длины).
-*   `app/tasks/` — Celery-задачи:
-    *   `parsing.py` — задачи парсинга RSS и Telegram.
-    *   `pipeline.py` — оркестратор обработки и генерации.
-    *   `generation.py` — генерация постов.
-    *   `publishing.py` — публикация в Telegram.
-*   `app/services/filter.py` — сервис фильтрации новостей по длине, наличию дубликатов (хэш контента), статусу источника и ключевым словам.
-*   `app/news_parser/` — логика парсеров (`rss.py` и `telegram.py`).
-*   `app/models.py` — ORM модели базы данных (`Source`, `Keyword`, `NewsItem`, `Post`).
+## 📁 Структура проекта
+
+*   `app/main.py` — Основная точка входа FastAPI приложения, объединяющая роутеры (`sources`, `keywords`, `news`, `posts`, `generate`, `auth`).
+*   `app/api/` — REST API эндпоинты (FastAPI) для управления источниками, ключевыми словами, новостями, постами и авторизацией сессии.
+*   `app/ai/` — Модуль взаимодействия с ИИ:
+    *   `client.py` (`AIClient`) — Единая точка доступа к Gemini и OpenAI с обработкой ошибок и переключением провайдеров.
+    *   `generator.py` (`PostGenerator`) — Формирование системных и пользовательских промптов, валидация длины и формата готового поста.
+*   `app/news_parser/` — Модули сбора новостей: парсер RSS-лент (`rss.py`) и парсер сообщений из Telegram-каналов (`telegram.py`).
+*   `app/repository/` — Слой доступа к данным (Data Access Layer) с использованием асинхронных репозиториев SQLAlchemy (`news_repo.py`, `post_repo.py` и др.).
+*   `app/services/` — Сервисный слой с бизнес-логикой приложения, включая `filter.py` (фильтрация новостей по длине, дубликатам хэша, активности источника и ключевым словам).
+*   `app/tasks/` — Асинхронные Celery-задачи:
+    *   `parsing.py` — Задачи парсинга RSS и Telegram-источников.
+    *   `pipeline.py` — Оркестратор отбора необработанных новостей и передачи их на генерацию.
+    *   `generation.py` — Задача генерации текста поста через ИИ.
+    *   `publishing.py` — Задача публикации готового поста в Telegram.
+*   `app/telegram/` — Модуль интеграции с Telegram via Telethon (`client.py` для управления сессией и `publisher.py` для отправки сообщений в канал).
+*   `app/config.py` — Конфигурация приложения и валидация переменных окружения (`.env`) через Pydantic Settings.
+*   `app/database.py` — Настройка асинхронного подключения к PostgreSQL, создание движка и сессий SQLAlchemy.
+*   `app/models.py` — ORM-модели базы данных (`Source`, `Keyword`, `NewsItem`, `Post`).
+*   `app/schemas.py` — Pydantic-схемы для валидации входящих и исходящих DTO/запросов API.
+*   `alembic/` — Файлы и скрипты версионирования и миграций базы данных.
+*   `celery_worker.py` — Инициализация приложения Celery, регистрация задач и настройка расписания периодических запусков (Celery Beat).
+*   `docker-compose.yaml` — Конфигурация оркестрации всех контейнеров (PostgreSQL, Redis, RabbitMQ, API, Celery Worker, Celery Beat, Flower).
+*   `pyproject.toml` / `requirements.txt` — Конфигурация окружения, управление зависимостями и пакетами Python.
 
 ---
+
 
 ## 🚀 Инструкция по запуску
 
